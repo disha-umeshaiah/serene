@@ -6,21 +6,41 @@ function toggleAuth(){
   document.getElementById("authBox").classList.toggle("hidden");
 }
 
-function sendMessage(){
-  let input = userInput.value;
+async function sendMessage(){
+  const input = document.getElementById("userInput").value;
+  const chatBox = document.getElementById("chatBox");
+
+  if(!input) return;
+
+  // show user message
   chatBox.innerHTML += `<p><b>You:</b> ${input}</p>`;
 
-  let reply = "I'm here for you 💙";
+  // show thinking
+  const thinkingId = "thinking-" + Date.now();
+  chatBox.innerHTML += `<p id="${thinkingId}"><i>Thinking...</i></p>`;
 
-  if(input.includes("sad")) reply="I'm sorry you're feeling sad.";
-  if(input.includes("anxious")) reply="Take a deep breath.";
-  if(input.includes("stress")) reply="Let's slow things down.";
+  document.getElementById("userInput").value = "";
 
-  setTimeout(()=>{
-    chatBox.innerHTML += `<p><b>AI:</b> ${reply}</p>`;
-  },500);
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: input })
+    });
 
-  userInput.value="";
+    const data = await res.json();
+
+    // remove thinking
+    document.getElementById(thinkingId).remove();
+
+    // show AI reply
+    chatBox.innerHTML += `<p><b>AI:</b> ${data.reply}</p>`;
+
+  } catch (err) {
+    document.getElementById(thinkingId).innerText = "❌ Error connecting to AI";
+  }
 }
 
 function saveJournal(){
