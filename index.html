@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="favicon.png">
+<meta charset="UTF-8">
+<title>Serene</title>
+<link rel="stylesheet" href="style.css">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+</head>
+
+<body>
+
+<!-- 🫧 BUBBLES -->
+<div class="bubbles">
+  <span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span>
+</div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="logo">Serene</div>
+  <div class="nav-links">
+    <button onclick="goTo('home')">Home</button>
+    <button onclick="goTo('chat')">AI Therapy</button>
+    <button onclick="goTo('journal')">Journal</button>
+    <button onclick="goTo('mood')">Mood</button>
+    <button onclick="toggleAuth()">Login</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <h1>Calm your mind.<br>Change your life.</h1>
+  <button onclick="goTo('chat')">Start Therapy</button>
+</section>
+
+<!-- LOGIN MODAL -->
+<div id="authBox" class="auth hidden">
+  <div class="auth-box">
+    <h2>Welcome to Serene</h2>
+
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+
+    <button onclick="signUp()">Sign Up</button>
+    <button onclick="login()">Login</button>
+
+    <br><br>
+    <button onclick="toggleAuth()">Close</button>
+  </div>
+</div>
+
+<section id="chat" class="section">
+  <h2>AI Therapist</h2>
+
+  <div id="chatBox"></div>
+
+  <input id="userInput" placeholder="Talk to me...">
+
+  <div class="chat-buttons">
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="startVoice()">🎤 Speak</button>
+  </div>
+
+  <p id="voiceStatus"></p>
+</section>
+
+<section id="journal" class="section">
+  <h2>Your Journal</h2>
+
+  <div class="notebook">
+    <textarea id="journalText" placeholder="Write your thoughts here..."></textarea>
+
+    <div class="journal-footer">
+      <span id="journalDate"></span>
+      <span id="journalUser"></span>
+    </div>
+  </div>
+
+  <button onclick="saveJournal()">Save Entry</button>
+  <p id="journalInsight"></p>
+</section>
+
+<section id="mood" class="section">
+  <h2>How are you feeling today?</h2>
+
+  <select id="moodSelect">
+    <option>Happy</option>
+    <option>Calm</option>
+    <option>Neutral</option>
+    <option>Sad</option>
+    <option>Anxious</option>
+    <option>Stressed</option>
+    <option>Overwhelmed</option>
+    <option>Lonely</option>
+    <option>Motivated</option>
+    <option>Tired</option>
+  </select>
+
+  <button onclick="checkMood()">Analyze</button>
+
+  <div id="moodResult" class="mood-result"></div>
+</section>
+
+<script src="firebase.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
